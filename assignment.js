@@ -155,7 +155,7 @@ function sortLinkedList() {
 // InsertionSort to be used within bucket sort
 function insertionSort(array) {
     var length = array.length;
-    
+
     for(var i = 1; i < length; i++) {
       var temp = array[i];
       for(var j = i - 1; j >= 0 && array[j] > temp; j--) {
@@ -163,22 +163,22 @@ function insertionSort(array) {
       }
       array[j+1] = temp;
     }
-    
+
     return array;
   }
-  
+
   // Implement bucket sort
   function bucketSort(array, bucketSize) {
     if (array.length === 0) {
       return array;
     }
-  
+
     // Declaring vars
     let i,
         minValue = array[0],
         maxValue = array[0],
         bucketSize = bucketSize || 5;
-    
+
     // Setting min and max values
     array.forEach(function (currentVal) {
         if (currentVal < minValue) {
@@ -187,32 +187,68 @@ function insertionSort(array) {
             maxValue = currentVal;
         }
     })
-  
+
     // Initializing buckets
     var bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;
     var allBuckets = new Array(bucketCount);
-    
+
     for (i = 0; i < allBuckets.length; i++) {
       allBuckets[i] = [];
     }
-    
+
     // Pushing values to buckets
     array.forEach(function (currentVal) {
         allBuckets[Math.floor((currentVal - minValue) / bucketSize)].push(currentVal);
     });
-  
+
     // Sorting buckets
     array.length = 0;
-    
+
     allBuckets.forEach(function(bucket) {
         insertionSort(bucket);
         bucket.forEach(function (element) {
             array.push(element)
         });
     });
-  
+
     return array;
 
 }
 
-sortLinkedList();
+function sortInPlace(array) {
+    for (let i = 0; i < array.length; i++) {
+        let random = Math.floor(Math.random() * array.length);
+        let current = array[i];
+        let randomValue = array[random];
+        array[random] = current;
+        array[i] = randomValue;
+    }
+
+    return array;
+}
+
+// console.log(sortInPlace([4, 8, 15, 19, 2, 34, 1]));
+
+function sortingBooks(array) {
+    let noneChanged = true;
+
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] < array[i - 1]) {
+            let temp1 = array[i];
+            let temp2 = array[i - 1];
+            array[i - 1] = temp1;
+            array[i] = temp2;
+
+            noneChanged = false;
+        }
+    }
+
+    if (noneChanged) {
+        console.log('returning', array);
+        return array;
+    } else {
+        return sortingBooks(array);
+    }
+}
+
+console.log(sortingBooks(['A book', 'B book', 'D book', 'C book', 'F book']));
