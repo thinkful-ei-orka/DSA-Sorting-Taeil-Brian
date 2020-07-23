@@ -1,7 +1,9 @@
-// 21, 1, 26, 45, 29, 28, 2, 9, 16, 49, 39, 27, 43, 34, 46, 40 
+const LinkedList = require('./linkedList');
+
+// 21, 1, 26, 45, 29, 28, 2, 9, 16, 49, 39, 27, 43, 34, 46, 40
 
 
-// 21,1,26,45,29,28,2,9  -  16,49,39,27,43,34,46,40 
+// 21,1,26,45,29,28,2,9  -  16,49,39,27,43,34,46,40
 // 21,1,26,45 - 29,28,2,9 - 16,49,39,27 - 43,34,46,40
 // 21,1 - 26,45 - 29,28 - 2,9 - 16,49 - 39,27 - 43,34 - 46,40
 // 21 - 1 - 26 - 45 - 29 - 28 - 2 - 9 - 16 - 49 - 39 - 27 - 43 - 34 - 46 -40
@@ -12,7 +14,7 @@
 // 1,2,9,16,21,26,27,28,29,34,39,40,43,45,46,49
 
 // 1) a) 21,1 - 26,45 - 29,28 - 2,9 - 16,49 - 39,27 - 43,34 - 46,40
-//    b) 21 - 1 
+//    b) 21 - 1
 //    c) 21 - 1
 //    d) 43 - 34
 
@@ -52,11 +54,25 @@ function qsort (array, start = 0, end = array.length) {
 
 }
 
+function mergeSort(array) {
+    if (array.length <= 1) {
+        return array;
+    }
+
+    const middle = Math.floor(array.length / 2);
+    let left = array.slice(0, middle);
+    let right = array.slice(middle, array.length);
+
+    left = mergeSort(left);
+    right = mergeSort(right);
+    return mSort(left, right, array);
+};
+
 function mSort(left, right, array){
     let leftIndex = 0;
     let rightIndex = 0;
     let outputIndex = 0;
-    
+
     while (leftIndex < left.length && rightIndex < right.length) {
         if (left[leftIndex] < right[rightIndex]) {
             array[outputIndex++] = left[leftIndex++];
@@ -73,16 +89,67 @@ function mSort(left, right, array){
         array[outputIndex++] = right[i];
     }
 
-    return array
+    return array;
 }
 
-console.log(mSort([89, 30, 25, 32, 72, 70, 51, 42, 25, 
-    24, 53, 55, 78, 50, 13, 40, 48, 32, 26, 
-    2, 14, 33, 45, 72, 56, 44, 21, 88, 27, 
-    68, 15, 62, 93, 98, 73, 28, 16, 46, 87, 
-    28, 65, 38, 67, 16, 85, 63, 23, 69, 64, 
-    91, 9, 70, 81, 27, 97, 82, 6, 88, 3, 7, 
-    46, 13, 11, 64, 76, 31, 26, 38, 28, 13, 
-    17, 69, 90, 1, 6, 7, 64, 43, 9, 73, 80, 
-    98, 46, 27, 22, 87, 49, 83, 6, 39, 42, 
-    51, 54, 84, 34, 53, 78, 40, 14, 5]))
+// function mSortLinkedList(left, right, linkedList){
+//     let leftIndex = 0;
+//     let rightIndex = 0;
+//     let outputIndex = 0;
+
+//     while (leftIndex < left.length && rightIndex < right.length) {
+//         if (left[leftIndex] < right[rightIndex]) {
+//             array[outputIndex++] = left[leftIndex++];
+//         } else {
+//             array[outputIndex++] = right[rightIndex++];
+//         }
+//     }
+
+//     for (let i = leftIndex; i < left.length; i++) {
+//         array[outputIndex++] = left[i];
+//     }
+
+//     for (let i = rightIndex; i< right.length; i++) {
+//         array[outputIndex++] = right[i];
+//     }
+
+//     return array
+// }
+
+// console.log(mergeSort([89, 30, 25, 32, 72, 70, 51, 42, 25,
+//     24, 53, 55, 78, 50, 13, 40, 48, 32, 26,
+//     2, 14, 33, 45, 72, 56, 44, 21, 88, 27,
+//     68, 15, 62, 93, 98, 73, 28, 16, 46, 87,
+//     28, 65, 38, 67, 16, 85, 63, 23, 69, 64,
+//     91, 9, 70, 81, 27, 97, 82, 6, 88, 3, 7,
+//     46, 13, 11, 64, 76, 31, 26, 38, 28, 13,
+//     17, 69, 90, 1, 6, 7, 64, 43, 9, 73, 80,
+//     98, 46, 27, 22, 87, 49, 83, 6, 39, 42,
+//     51, 54, 84, 34, 53, 78, 40, 14, 5]));
+
+function sortLinkedList() {
+  const SLL = new LinkedList;
+
+  SLL.insertFirst(89);
+  SLL.insertLast(30);
+  SLL.insertLast(25);
+  SLL.insertLast(32);
+  SLL.insertLast(72);
+  SLL.insertLast(70);
+  SLL.insertLast(51);
+  SLL.insertLast(42);
+  SLL.insertLast(25);
+  SLL.insertLast(24);
+
+  let listArray = [];
+
+  let currNode = SLL.head;
+  while (currNode !== null) {
+    listArray.push(currNode.value);
+    currNode = currNode.next;
+  }
+
+  console.log(mergeSort(listArray));
+}
+
+sortLinkedList();
